@@ -14,7 +14,7 @@ module.exports = (io) => {
 
         // a user presses enter after input a valid username
         socket.on('is_online', (name) => {
-            socket.emit('online_name', name, broadcast=true);
+            io.sockets.emit('online_name', name);
         });
 
         // `inviter` selects `guest`, sending 2 usernames to server
@@ -36,7 +36,7 @@ module.exports = (io) => {
 
         // 2 filtered users emit this event, then join room
         socket.on('join_private_room', (data) => {
-            join_room(data['room']);
+            sokcket.join(data['room']);
             console.log('Users: ' + data['inviter'] + ', ' +
                 data['guest'] + ' joined the room [' +
                 data['room'] + '].');
