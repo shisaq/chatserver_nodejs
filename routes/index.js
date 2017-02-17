@@ -24,19 +24,18 @@ module.exports = (io) => {
             var r = [names['inviter'], names['guest']];
             r.sort();
             var room = r.join('');
-            console.log(room);
 
-            socket.emit('invite_match_user', {
+            io.sockets.emit('invite_match_user', {
                 'inviter': names['inviter'],
                 'guest': names['guest'],
                 'room': room,
                 'isActive': true
-            }, broadcast=true);
+            });
         });
 
         // 2 filtered users emit this event, then join room
         socket.on('join_private_room', (data) => {
-            sokcket.join(data['room']);
+            socket.join(data['room']);
             console.log('Users: ' + data['inviter'] + ', ' +
                 data['guest'] + ' joined the room [' +
                 data['room'] + '].');
@@ -44,7 +43,7 @@ module.exports = (io) => {
 
         // send private messages
         socket.on('private_message', (data) => {
-            socket.emit('room_message', data, room=data['room']);
+            io.to(data['room']).emit('room_message', data);
         });
     });
 
