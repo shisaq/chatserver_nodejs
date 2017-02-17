@@ -91,6 +91,7 @@ export default class Room extends React.Component {
         this.props.socket.on('room_message', (data) => {
             // console.log('I have received the message.');
             if (this.props.info.room === data.room) {
+                this.props.info.isActive = true;
                 RoomMsgActions.sendMessage(data);
             }
         });
